@@ -51,18 +51,15 @@ public class SyncData implements BaseCall{
 
 
     @Override
-    public void addUser(UserModel userModel) {
-        datas.add(userModel);
+    public void addUser(UserModel userModel, Context context) {
+
+        DBCaller.getInstance().addUser(userModel, context);
         Provider.getInstance().onDataChanged();
     }
 
     @Override
     public List<UserModel> getUsers(Context context) {
-        //test datas
-        DBCaller.getInstance().addUser(new UserModel(0, "jean@pierre.com", "jean", "pierre"));
-        DBCaller.getInstance().addUser(new UserModel(1, "jean@jacque.com", "jean", "jacque"));
-        DBCaller.getInstance().addUser(new UserModel(2, "jean@alain.com", "jean", "alain"));
-        DBCaller.getInstance().addUser(new UserModel(3, "jean@neymar.com", "jean", "neymar"));
+
         datas = DBCaller.getInstance().getUsers(context);
 
         if(datas.size() == 0) {

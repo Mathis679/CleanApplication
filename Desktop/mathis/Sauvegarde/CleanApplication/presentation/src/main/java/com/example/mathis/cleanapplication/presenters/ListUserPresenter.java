@@ -28,7 +28,7 @@ public class ListUserPresenter implements Asker {
     public ListUserPresenter(MainActivity mainActivity){
         this.mainActivity = mainActivity;
         provider.initAsker(this);
-        list = provider.datas.getUsers();
+        list = provider.datas.getUsers(mainActivity);
         displayFragment();
     }
 
@@ -38,7 +38,7 @@ public class ListUserPresenter implements Asker {
     }
 
     public void refreshDatas(){
-        list = provider.datas.getUsers();
+        list = Provider.getInstance().datas.getUsers(mainActivity);
         listUserFragment.updateViews();
     }
 
@@ -52,7 +52,7 @@ public class ListUserPresenter implements Asker {
 
     @Override
     public void newUserAdded(UserModel userModel){
-        provider.datas.addUser(userModel);
+        Provider.getInstance().datas.addUser(userModel,mainActivity);
     }
 
 }

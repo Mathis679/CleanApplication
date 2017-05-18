@@ -1,5 +1,7 @@
 package com.example.data.webservices;
 
+import android.content.Context;
+
 import com.example.data.BaseCall;
 import com.example.data.model.UserModel;
 
@@ -24,12 +26,12 @@ public class WSCaller implements BaseCall{
 
 
     @Override
-    public void addUser(UserModel userModel) {
+    public void addUser(UserModel userModel, Context context) {
 
     }
 
     @Override
-    public List<UserModel> getUsers() {
+    public List<UserModel> getUsers(Context context) {
         //request API return String content
         //transform json response to list of usermodel
         return null;
