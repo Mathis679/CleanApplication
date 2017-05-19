@@ -37,6 +37,12 @@ public class DBCaller implements BaseCall{
         return userDAO.getAll();
     }
 
+    @Override
+    public void removeUser(UserModel userModel, Context context) {
+        UserDAO userDAO = new UserDAO(context);
+        userDAO.delete(userModel);
+    }
+
     public int getVersionDB(){
         //request DB return DB version number
 

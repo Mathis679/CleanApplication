@@ -134,6 +134,6 @@ public class ListUserFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onCreatedUser(String firstname, String lastname) {
         String email = firstname + "@" + lastname + ".com";
-        presenter.newUserAdded(new UserModel(list.size(),email,firstname,lastname));
+        presenter.newUserAdded(new UserModel(adapter.getLastItemId()+1,email,firstname,lastname));
     }
 }

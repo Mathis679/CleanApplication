@@ -83,6 +83,12 @@ public class SyncData implements BaseCall{
     }
 
     @Override
+    public void removeUser(UserModel userModel, Context context) {
+        DBCaller.getInstance().removeUser(userModel, context);
+        Provider.getInstance().onDataChanged();
+    }
+
+    @Override
     public int getVersionDB() {
         return 0;
     }

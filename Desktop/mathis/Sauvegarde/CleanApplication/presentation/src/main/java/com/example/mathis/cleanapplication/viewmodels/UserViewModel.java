@@ -35,4 +35,8 @@ public class UserViewModel {
         return  firstname + " " + userModel.getLastname().toUpperCase();
     }
 
+    public UserModel getUserModel(){
+        return this.userModel;
+    }
+
 }

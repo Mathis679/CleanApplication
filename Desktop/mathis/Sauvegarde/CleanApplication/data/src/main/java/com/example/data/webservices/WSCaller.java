@@ -38,6 +38,11 @@ public class WSCaller implements BaseCall{
     }
 
     @Override
+    public void removeUser(UserModel userModel, Context context) {
+
+    }
+
+    @Override
     public int getVersionDB()  {
         //request API return DB version number
         int response = 404;

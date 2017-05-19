@@ -6,12 +6,14 @@ package com.example.mathis.cleanapplication.adapters;
 
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.data.Provider;
 import com.example.data.model.UserModel;
 import com.example.mathis.cleanapplication.R;
 import com.example.mathis.cleanapplication.viewmodels.UserViewModel;
@@ -66,6 +68,30 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.MyView
                             .show();
                 }
             });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    new AlertDialog.Builder(itemView.getContext())
+                            .setTitle("Supprimer une personne")
+                            .setMessage("Are you sure?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Provider.getInstance().datas.removeUser(currentUserViewModel.getUserModel(),itemView.getContext());
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            })
+                            .show();
+
+                    return true;
+                }
+            });
         }
 
         public void display(UserModel userModel) {
@@ -77,6 +103,10 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.MyView
 
     public void updateList(List<UserModel> list){
         this.list = list;
+    }
+
+    public int getLastItemId(){
+        return this.list.get(list.size()-1).getId();
     }
 
 }
