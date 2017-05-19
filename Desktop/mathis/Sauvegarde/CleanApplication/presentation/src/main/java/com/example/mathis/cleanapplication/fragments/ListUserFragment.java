@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ public class ListUserFragment extends Fragment implements View.OnClickListener, 
     ArrayList<UserModel> list;
     private final static String ARG_LIST = "list";
     Asker presenter;
+    ListUserAdapter adapter;
 
     public ListUserFragment() {
     }
@@ -61,10 +63,12 @@ public class ListUserFragment extends Fragment implements View.OnClickListener, 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
+        adapter = new ListUserAdapter(list);
+
         rv = (RecyclerView) view.findViewById(R.id.list);
         rv.setLayoutManager(new LinearLayoutManager(mainActivity));
         if(list!=null && list.size()!=0){
-            rv.setAdapter(new ListUserAdapter(list));
+            rv.setAdapter(adapter);
         }else{
             Toast.makeText(mainActivity, "Pas de données à afficher",Toast.LENGTH_LONG).show();
         }
@@ -72,8 +76,17 @@ public class ListUserFragment extends Fragment implements View.OnClickListener, 
         fab = (FloatingActionButton) view.findViewById(R.id.fab_add);
         fab.setOnClickListener(this);
 
+        mainActivity.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("click","okaay");
+                presenter.updateViews();
+            }
+        });
+
         return view;
     }
+
 
 
     @Override
@@ -88,8 +101,9 @@ public class ListUserFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    public void updateViews(){
-        rv.getAdapter().notifyDataSetChanged();
+    public void updateViews(List<UserModel> list){
+        adapter.updateList(list);
+        adapter.notifyDataSetChanged();
     }
 
     public void onRefresh(){

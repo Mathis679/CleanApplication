@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.mathis.cleanapplication.activities.MainActivity">
 
+    <include layout="@layout/toolbar_layout"
+        android:id="@+id/mytoolbar"/>
+
 
     <FrameLayout
             android:id="@+id/fragmentcontainer"
@@ -15,7 +18,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/mytoolbar"
         android:layout_marginBottom="8dp"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp">

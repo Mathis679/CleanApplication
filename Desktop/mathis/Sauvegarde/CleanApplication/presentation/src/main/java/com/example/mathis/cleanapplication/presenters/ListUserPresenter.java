@@ -39,7 +39,7 @@ public class ListUserPresenter implements Asker {
 
     public void refreshDatas(){
         list = Provider.getInstance().datas.getUsers(mainActivity);
-        listUserFragment.updateViews();
+        listUserFragment.updateViews(list);
     }
 
     public void displayFragment(){

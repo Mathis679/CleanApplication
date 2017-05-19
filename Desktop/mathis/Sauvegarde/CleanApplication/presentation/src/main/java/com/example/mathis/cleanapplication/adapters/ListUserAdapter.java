@@ -75,4 +75,8 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.MyView
         }
     }
 
+    public void updateList(List<UserModel> list){
+        this.list = list;
+    }
+
 }
