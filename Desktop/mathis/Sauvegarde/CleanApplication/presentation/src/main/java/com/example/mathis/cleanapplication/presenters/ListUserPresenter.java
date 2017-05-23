@@ -29,7 +29,6 @@ public class ListUserPresenter implements Asker {
         this.mainActivity = mainActivity;
         provider.initAsker(this);
         list = provider.datas.getUsers(mainActivity);
-        displayFragment();
     }
 
     @Override

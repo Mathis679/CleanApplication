@@ -102,6 +102,7 @@ public class ListUserFragment extends Fragment implements View.OnClickListener, 
     }
 
     public void updateViews(List<UserModel> list){
+        this.list = (ArrayList<UserModel>) list;
         adapter.updateList(list);
         adapter.notifyDataSetChanged();
     }

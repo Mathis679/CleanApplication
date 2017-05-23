@@ -21,5 +21,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.refresh);
         ListUserPresenter listUserPresenter = new ListUserPresenter(this);
+        listUserPresenter.displayFragment();
     }
 }
