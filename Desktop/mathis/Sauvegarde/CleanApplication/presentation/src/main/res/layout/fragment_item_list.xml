@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.mathis.cleanapplication.fragments.ListUserFragment">
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="0dp"
