@@ -38,6 +38,7 @@ dependencies {
     compile 'com.mxn.soul:flowingdrawer-core:2.0.0'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.recruit-lifestyle:WaveSwipeRefreshLayout:1.6'
+    compile 'uk.co.samuelwall:material-tap-target-prompt:1.10.0'
     testCompile 'junit:junit:4.12'
     compile project(path: ':data')
 }

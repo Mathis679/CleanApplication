@@ -1,8 +1,10 @@
 package com.example.mathis.cleanapplication.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -27,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 
 public class ListUserFragment extends Fragment implements View.OnClickListener, AddUserDialog.AddUserListener {
@@ -39,6 +43,7 @@ public class ListUserFragment extends Fragment implements View.OnClickListener, 
     private final static String ARG_LIST = "list";
     Asker presenter;
     ListUserAdapter adapter;
+    SharedPreferences sharedPreferences;
 
     public ListUserFragment() {
     }
@@ -93,6 +98,46 @@ public class ListUserFragment extends Fragment implements View.OnClickListener, 
     }
 
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        sharedPreferences = mainActivity.getPreferences(Context.MODE_PRIVATE);
+        if(!sharedPreferences.contains("touchAddUser")){
+            displayTuto(view, R.id.fab_add);
+        }else{
+            if(!sharedPreferences.getBoolean("touchAddUser",false)){
+                displayTuto(view, R.id.fab_add);
+            }
+        }
+
+
+    }
+
+    public void displayTuto(View view, int id){
+        new MaterialTapTargetPrompt.Builder(this.mainActivity)
+                .setTarget(view.findViewById(id))
+                .setPrimaryText("Ajouter un nouvel utilisateur")
+                .setSecondaryText("Cliquer sur le bouton plus pour accéder au formulaire d'ajout d'un utilisateur")
+                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener()
+                {
+                    @Override
+                    public void onHidePrompt(MotionEvent event, boolean tappedTarget)
+                    {
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean("touchAddUser",true);
+                        editor.commit();
+                    }
+
+                    @Override
+                    public void onHidePromptComplete()
+                    {
+                        //display another tuto
+                    }
+                })
+                .show();
+    }
 
     @Override
     public void onAttach(Context context) {
