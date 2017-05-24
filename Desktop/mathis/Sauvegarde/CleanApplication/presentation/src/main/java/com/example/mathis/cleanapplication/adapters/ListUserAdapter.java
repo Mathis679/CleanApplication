@@ -6,6 +6,7 @@ package com.example.mathis.cleanapplication.adapters;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,16 +17,20 @@ import android.widget.TextView;
 import com.example.data.Provider;
 import com.example.data.model.UserModel;
 import com.example.mathis.cleanapplication.R;
+import com.example.mathis.cleanapplication.dialogs.AddUserDialog;
 import com.example.mathis.cleanapplication.viewmodels.UserViewModel;
 
 import java.util.List;
 
-public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.MyViewHolder> {
+public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.MyViewHolder> implements AddUserDialog.UpdateUserListener {
 
     private List<UserModel> list;
+    private Context context;
+    private AddUserDialog.UpdateUserListener listener;
 
     public ListUserAdapter(List<UserModel> list){
         this.list = list;
+        this.listener = this;
     }
 
     @Override
@@ -35,6 +40,7 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.MyView
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.list_cell, parent, false);
         return new MyViewHolder(view);
@@ -44,6 +50,11 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         UserModel userModel = list.get(position);
         holder.display(userModel);
+    }
+
+    @Override
+    public void onUpdatedUser(UserModel userModel) {
+        Provider.getInstance().datas.updateUser(userModel,this.context);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -73,18 +84,19 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.MyView
                 @Override
                 public boolean onLongClick(View v) {
                     new AlertDialog.Builder(itemView.getContext())
-                            .setTitle("Supprimer une personne")
-                            .setMessage("Are you sure?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            .setTitle("Suppression/Modification")
+                            .setMessage("Que voulez-vous faire?")
+                            .setNegativeButton("Supprimer", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Provider.getInstance().datas.removeUser(currentUserViewModel.getUserModel(),itemView.getContext());
+                                   Provider.getInstance().datas.removeUser(currentUserViewModel.getUserModel(),itemView.getContext());
                                 }
                             })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Modifier", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
+                                    AddUserDialog addUserDialog = new AddUserDialog(context, listener, currentUserViewModel.getUserModel());
+                                    addUserDialog.show();
                                 }
                             })
                             .show();

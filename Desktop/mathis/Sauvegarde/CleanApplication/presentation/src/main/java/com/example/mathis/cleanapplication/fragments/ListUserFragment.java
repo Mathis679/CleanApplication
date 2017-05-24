@@ -192,12 +192,6 @@ public class ListUserFragment extends Fragment implements View.OnClickListener, 
         @Override
         protected String[] doInBackground(Void... params) {
             presenter.updateViews();
-            try {
-                //reproduce loading
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             return null;
         }
 

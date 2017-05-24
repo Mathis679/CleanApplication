@@ -15,5 +15,6 @@ public interface BaseCall {
     void addUser(UserModel userModel, Context context);
     List<UserModel> getUsers(Context context);
     void removeUser(UserModel userModel, Context context);
+    void updateUser(UserModel userModel, Context context);
     int getVersionDB();
 }

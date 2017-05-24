@@ -93,6 +93,12 @@ public class SyncData implements BaseCall{
     }
 
     @Override
+    public void updateUser(UserModel userModel, Context context) {
+        DBCaller.getInstance().updateUser(userModel, context);
+        Provider.getInstance().onDataChanged();
+    }
+
+    @Override
     public int getVersionDB() {
         return 0;
     }
