@@ -1,6 +1,7 @@
 package com.example.mathis.cleanapplication.fragments;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -25,11 +26,14 @@ import com.example.mathis.cleanapplication.presenters.ListUserPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
+
 
 public class ListUserFragment extends Fragment implements View.OnClickListener, AddUserDialog.AddUserListener {
 
     MainActivity mainActivity;
     RecyclerView rv;
+    WaveSwipeRefreshLayout mWaveSwipeRefreshLayout;
     FloatingActionButton fab;
     ArrayList<UserModel> list;
     private final static String ARG_LIST = "list";
@@ -76,11 +80,12 @@ public class ListUserFragment extends Fragment implements View.OnClickListener, 
         fab = (FloatingActionButton) view.findViewById(R.id.fab_add);
         fab.setOnClickListener(this);
 
-        mainActivity.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) view.findViewById(R.id.main_swipe);
+        mWaveSwipeRefreshLayout.setWaveARGBColor(255,63,81,181);
+        mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
-                Log.d("click","okaay");
-                presenter.updateViews();
+            public void onRefresh() {
+                new Task().execute();
             }
         });
 
@@ -104,7 +109,6 @@ public class ListUserFragment extends Fragment implements View.OnClickListener, 
     public void updateViews(List<UserModel> list){
         this.list = (ArrayList<UserModel>) list;
         adapter.updateList(list);
-        adapter.notifyDataSetChanged();
     }
 
     public void onRefresh(){
@@ -136,5 +140,27 @@ public class ListUserFragment extends Fragment implements View.OnClickListener, 
     public void onCreatedUser(String firstname, String lastname) {
         String email = firstname + "@" + lastname + ".com";
         presenter.newUserAdded(new UserModel(adapter.getLastItemId()+1,email,firstname,lastname));
+    }
+
+    private class Task extends AsyncTask<Void, Void, String[]> {
+
+        @Override
+        protected String[] doInBackground(Void... params) {
+            presenter.updateViews();
+            try {
+                //reproduce loading
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override protected void onPostExecute(String[] result) {
+            // Call setRefreshing(false) when the list has been refreshed.
+            mWaveSwipeRefreshLayout.setRefreshing(false);
+            adapter.notifyDataSetChanged();
+            super.onPostExecute(result);
+        }
     }
 }
