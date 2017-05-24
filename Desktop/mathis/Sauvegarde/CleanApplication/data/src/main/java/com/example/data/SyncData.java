@@ -62,16 +62,20 @@ public class SyncData implements BaseCall{
 
         datas = DBCaller.getInstance().getUsers(context);
 
-        if(datas.size() == 0) {
-            datas.add(new UserModel(0, "jean@pierre.com", "jean", "pierre"));
-            datas.add(new UserModel(0, "jean@jacque.com", "jean", "jacque"));
-            datas.add(new UserModel(0, "jean@alain.com", "jean", "alain"));
-            datas.add(new UserModel(0, "jean@neymar.com", "jean", "neymar"));
-            datas.add(new UserModel(0, "jean@paul.com", "jean", "paul"));
-            datas.add(new UserModel(0, "jean@peutplus.com", "jean", "peutplus"));
-            datas.add(new UserModel(0, "jean@kaaris.com", "jean", "kaaris"));
-            datas.add(new UserModel(0, "jean@booba.com", "jean", "booba"));
+        if(datas == null){
+            datas = new ArrayList<>();
+            if(datas.size() == 0) {
+                datas.add(new UserModel(0, "jean@pierre.com", "jean", "pierre"));
+                datas.add(new UserModel(0, "jean@jacque.com", "jean", "jacque"));
+                datas.add(new UserModel(0, "jean@alain.com", "jean", "alain"));
+                datas.add(new UserModel(0, "jean@neymar.com", "jean", "neymar"));
+                datas.add(new UserModel(0, "jean@paul.com", "jean", "paul"));
+                datas.add(new UserModel(0, "jean@peutplus.com", "jean", "peutplus"));
+                datas.add(new UserModel(0, "jean@kaaris.com", "jean", "kaaris"));
+                datas.add(new UserModel(0, "jean@booba.com", "jean", "booba"));
+            }
         }
+
 //        if(isLocalDBSyncWithWS()){
 //            datas = dbCaller.getUsers();
 //        }else{
